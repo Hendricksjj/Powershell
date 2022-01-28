@@ -87,5 +87,6 @@ try {
 catch {
     Remove-PSSession -ComputerName $Computer
     Write-Host $_.exception.message
+    Write-Host $_.invocationinfo.positionmessage
     
 }#try/catch
