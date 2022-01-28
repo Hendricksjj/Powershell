@@ -1,0 +1,27 @@
+##################
+#Start RM Service
+##################
+$PC = 'DOE307665'
+GSV -ComputerName $PC -Name WinRM | Start-Service
+
+###################
+#Find Product Code
+###################
+#Get-WmiObject -Class Win32_Product -ComputerName $PC | Select-Object -Property Name, IdentifyingNumber
+
+#########
+#Product
+#########
+$App = Get-WmiObject -class win32_product -ComputerName $PC -Filter "IdentifyingNumber = '{ac76ba86-7ad7-ffff-7b44-ae1401753200}'"
+
+###########
+#Uninstall
+###########
+$App.uninstall()
+
+#Returncode 0 = successful
+
+###########
+#Reboot PC
+###########
+Restart-Computer -ComputerName $PC -Force
