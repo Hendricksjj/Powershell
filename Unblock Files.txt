@@ -1,7 +1,0 @@
-# -------------
-# Unblock files
-# -------------
-#Unblocks all files in a folder/subfolders
-
-$Path = "C:\Users\Jbone\Documents\Scripts\"
-Get-childitem -path $Path -recurse | Unblock-File
