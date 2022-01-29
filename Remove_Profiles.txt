@@ -1,7 +1,0 @@
-# -------------------
-# Delete all profiles
-# -------------------
-#Remove all profiles on a system and associated registry keys
-
-$Profiles = Get-CimInstance -classname win32_userprofile | where {(!$_.Special) -and ($_.LocalPath -ne "C:\Users\Administrator") -and ($_.LocalPath -ne "C:\Users\IT.services") -and ($_.LocalPath -ne "C:\Users\epo.deployment") -and ($_.LocalPath -ne "C:\Users\jason.admin") -and ($_.LocalPath -ne "C:\Users\brett.admin") -and ($_.LocalPath -ne "C:\Users\john.admin")}
-$Profiles | Remove-ciminstance
