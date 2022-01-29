@@ -1,3 +1,3 @@
-# Powershell Scripts
+# PowerShell
 
-Description
+This repository is used for my powershell scripts.
