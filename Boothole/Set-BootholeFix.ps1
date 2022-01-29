@@ -1,25 +1,26 @@
 <#
 .SYNOPSIS
-    Fix the 'hole in the boot' aka BootHole Vulnerablity on affected devices.
+    Fix the 'hole in the boot' aka BootHole Vulnerablity, CVE-2020-10713, on affected devices.
 .DESCRIPTION
-    The files are copied to the local device from the shared folder. The new DBX content is split and applied to the secure boot database and the device is restarted.
+    The files are copied to the local device from the local directory. The new DBX content is split and applied to the secure boot database and the device is restarted.
 .EXAMPLE
-    Set-CBCBootholeFix.ps1
-    Files are copied from the shared drive and boothole fix is applied to local device
-.EXAMPLE
-    c:\scripts\Set-CBCBootholeFix.ps1 -ComputerName Server01
+    c:\scripts\Set-BootholeFix.ps1 -ComputerName Server01
     Files are copied to a the remote device Server01 and the fix is applied to the remote device
 .EXAMPLE
-    c:\scripts\Set-CBCBootholeFix.ps1 -ComputerName (Get-Content c:\computers.txt)
+    c:\scripts\Set-BootholeFix.ps1 -ComputerName (Get-Content c:\computers.txt)
     Files are copied to a the remote devices in the computers.txt file and the fix is applied to the remote devices
 #>
 
 [CmdletBinding()]
 param (
+    # Computer name of remote PC
     [Parameter(Mandatory = $true,
         ValueFromPipeline = $true)]
-    [String[]]
-    $ComputerName
+    [String[]]$ComputerName,
+
+    # Path to the UEFI files
+    [Parameter(Mandatory = $false)]
+    [String]$Path = 'C:\DBX'
 )
 try {
     $ErrorActionPreference = 'Stop'
@@ -39,7 +40,7 @@ try {
         
             #Copy needed files from Shared drive to remote PC
             Write-Verbose "Copying files to $Computer"
-            Copy-Item "C:\DBX" -Destination "C:\DBX" -ToSession $Session -Recurse
+            Copy-Item $Path -Destination "C:\DBX" -ToSession $Session -Recurse
             #Use session to run Boothole fix
             Invoke-Command -Session $session -ScriptBlock {
                 #Set Execution Policy
