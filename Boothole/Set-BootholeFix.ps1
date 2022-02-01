@@ -1,14 +1,17 @@
 <#
 .SYNOPSIS
-    Fix the 'hole in the boot' aka BootHole Vulnerablity, CVE-2020-10713, on affected devices.
+    Fix the 'hole in the boot' aka BootHole Vulnerablity, CVE-2020-10713, on affected devices remotely.
 .DESCRIPTION
-    The files are copied to the local device from the local directory. The new DBX content is split and applied to the secure boot database and the device is restarted.
+    The files are copied to the remote device from the local directory. The new DBX content is split and applied to the secure boot database and the device is restarted.
 .EXAMPLE
     c:\scripts\Set-BootholeFix.ps1 -ComputerName Server01
-    Files are copied to a the remote device Server01 and the fix is applied to the remote device
+    Files are copied from the local host's C:\DBX directory to a the remote device Server01 and the fix is applied.
 .EXAMPLE
     c:\scripts\Set-BootholeFix.ps1 -ComputerName (Get-Content c:\computers.txt)
-    Files are copied to a the remote devices in the computers.txt file and the fix is applied to the remote devices
+    Files are copied from the local host's C:\DBX directory to a the remote devices in the computers.txt file and the fix is applied to each remote device.
+.EXAMPLE
+    c:\scripts\Set-BootholeFix.ps1 -ComputerName Server02 -Path 'D:\BootholeFiles'
+    Files are copied from the local host's D:\BootholeFiles directory to Server02 and the fix is applied.
 #>
 
 [CmdletBinding()]
